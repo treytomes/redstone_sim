@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37EDAADE-4367-4123-B6E8-C1BDB3B6927D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedstoneSimulator.Core", "src\RedstoneSimulator.Core\RedstoneSimulator.Core.csproj", "{1E53CC72-169B-40D7-A2CD-93DC78EF571C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B8B6590-3753-4822-B6D6-737E3E35A4C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedstoneSimulator.Tests", "tests\RedstoneSimulator.Tests\RedstoneSimulator.Tests.csproj", "{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E53CC72-169B-40D7-A2CD-93DC78EF571C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E53CC72-169B-40D7-A2CD-93DC78EF571C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E53CC72-169B-40D7-A2CD-93DC78EF571C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E53CC72-169B-40D7-A2CD-93DC78EF571C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E53CC72-169B-40D7-A2CD-93DC78EF571C} = {37EDAADE-4367-4123-B6E8-C1BDB3B6927D}
+		{27A923D8-0C1B-42D5-8A0C-2B463CD33B6F} = {2B8B6590-3753-4822-B6D6-737E3E35A4C4}
+	EndGlobalSection
+EndGlobal
