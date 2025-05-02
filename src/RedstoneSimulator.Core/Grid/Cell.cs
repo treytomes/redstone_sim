@@ -23,6 +23,11 @@ public class Cell
 		Component = component;
 	}
 
+	public override bool Equals(object? obj)
+	{
+		return Equals(obj as Cell);
+	}
+	
 	public bool Equals(Cell? other)
 	{
 		if (other is null) return false;
