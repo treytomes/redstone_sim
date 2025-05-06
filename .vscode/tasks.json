@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "test with coverage",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "test",
+          "/p:CollectCoverage=true",
+          "/p:CoverletOutputFormat=lcov,cobertura",
+          "/p:CoverletOutput=./TestResults/Coverage/"
+        ],
+        "problemMatcher": "$msCompile",
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "generate coverage report",
+        "command": "reportgenerator",
+        "type": "process",
+        "args": [
+          "-reports:./TestResults/Coverage/coverage.cobertura.xml",
+          "-targetdir:./TestResults/CoverageReport",
+          "-reporttypes:Html"
+        ],
+        "problemMatcher": []
+      }
+    ]
+  }
