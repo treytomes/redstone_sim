@@ -4,17 +4,28 @@ namespace RedstoneSimulator.Core.Grid;
 
 public class Cell
 {
+	#region Constructors
+
 	public Cell(int x, int y)
 	{
 		X = x;
 		Y = y;
 	}
 
+	#endregion
+
+	#region Properties
+
 	public int X { get; }
 	public int Y { get; }
+
 	public IComponent? Component { get; private set; }
 
-	public bool IsEmpty() => Component == null;
+	public bool IsEmpty => Component == null;
+	
+	#endregion
+	
+	#region Methods
 
 	public IComponent? GetComponent() => Component;
 
@@ -49,4 +60,6 @@ public class Cell
 	{
 		return !Equals(left, right);
 	}
+
+	#endregion
 }

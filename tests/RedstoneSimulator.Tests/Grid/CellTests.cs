@@ -13,7 +13,7 @@ public class CellTests
 		var cell = new Cell(5, 10);
 		
 		// Assert
-		Assert.True(cell.IsEmpty());
+		Assert.True(cell.IsEmpty);
 	}
 
 	[Fact]
@@ -27,7 +27,7 @@ public class CellTests
 		cell.SetComponent(mockComponent.Object);
 		
 		// Assert
-		Assert.False(cell.IsEmpty());
+		Assert.False(cell.IsEmpty);
 	}
 
 	[Fact]
@@ -86,7 +86,7 @@ public class CellTests
         cell.SetComponent(null);
         
         // Assert
-        Assert.True(cell.IsEmpty());
+        Assert.True(cell.IsEmpty);
         Assert.Null(cell.GetComponent());
     }
     
