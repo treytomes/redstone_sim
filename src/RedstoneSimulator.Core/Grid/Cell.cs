@@ -58,6 +58,15 @@ public class Cell : IEquatable<Cell>
         Y = y;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Cell"/> class with the specified coordinates.
+    /// </summary>
+    /// <param name="position">The coordinate of the cell.</param>
+    public Cell(Vector2i position)
+        : this(position.X, position.Y)
+    {
+    }
+
     #endregion
 
     #region Properties

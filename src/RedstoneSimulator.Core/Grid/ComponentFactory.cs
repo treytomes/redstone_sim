@@ -17,6 +17,8 @@ public class ComponentFactory
     {
         // Register default component factories
         RegisterComponentFactory("RedstoneWire", CreateWireComponent);
+        RegisterComponentFactory("Button", CreateButtonComponent);
+        RegisterComponentFactory("Switch", CreateSwitchComponent);
         RegisterComponentFactory("TestComponent", CreateTestComponent);
     }
 
@@ -146,20 +148,48 @@ public class ComponentFactory
     
     private static IComponent CreateButtonComponent(ComponentData data)
     {
-        // In a real implementation, you would create a concrete RedstoneButton here
-        // For now, create a mock component
-        var component = new MockComponent(ComponentType.Button);
-        ApplyCommonProperties(component, data);
-        return component;
+        // Extract the activation duration if provided, otherwise use default
+        float activationDuration = 1.0f;
+        if (data.Properties.TryGetValue("ActivationDuration", out var durationObj) && durationObj is float duration)
+        {
+            activationDuration = duration;
+        }
+        
+        // Create a new button with the specified duration
+        var button = new RedstoneButton(activationDuration);
+        
+        // Apply common properties
+        ApplyCommonComponentProperties(button, data);
+        
+        // Check if the button is pressed
+        if (data.Properties.TryGetValue("IsPressed", out var isPressedObj) && 
+            isPressedObj is bool isPressed && isPressed)
+        {
+            button.Press();
+            
+            // Note: We can't directly set the remaining activation time as it's private
+            // In a real implementation, you might want to add a method to set this for deserialization
+        }
+        
+        return button;
     }
     
     private static IComponent CreateSwitchComponent(ComponentData data)
     {
-        // In a real implementation, you would create a concrete RedstoneSwitch here
-        // For now, create a mock component
-        var component = new MockComponent(ComponentType.Switch);
-        ApplyCommonProperties(component, data);
-        return component;
+        // Extract the initial state if provided, otherwise use default (off)
+        bool initialState = false;
+        if (data.Properties.TryGetValue("IsOn", out var isOnObj) && isOnObj is bool isOn)
+        {
+            initialState = isOn;
+        }
+        
+        // Create a new switch with the specified initial state
+        var switch1 = new RedstoneSwitch(initialState);
+        
+        // Apply common properties
+        ApplyCommonComponentProperties(switch1, data);
+        
+        return switch1;
     }
     
     private static IComponent CreateRepeaterComponent(ComponentData data)
@@ -211,6 +241,34 @@ public class ComponentFactory
             else if (orientationObj is string orientationStr && Enum.TryParse<Direction>(orientationStr, out var direction))
             {
                 component.SetOrientation(direction);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Applies common properties to any component that inherits from ComponentBase
+    /// </summary>
+    private static void ApplyCommonComponentProperties(ComponentBase component, ComponentData data)
+    {
+        // Set power level if provided
+        if (data.Properties.TryGetValue("PowerLevel", out var powerLevelObj) && powerLevelObj is int powerLevel)
+        {
+            if (component is IPowerableComponent powerableComponent)
+            {
+                powerableComponent.PowerLevel = powerLevel;
+            }
+        }
+        
+        // Set orientation if provided
+        if (data.Properties.TryGetValue("Orientation", out var orientationObj))
+        {
+            if (orientationObj is int orientationInt)
+            {
+                component.SetDirection((Direction)orientationInt);
+            }
+            else if (orientationObj is string orientationStr && Enum.TryParse<Direction>(orientationStr, out var direction))
+            {
+                component.SetDirection(direction);
             }
         }
     }
