@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using RedstoneSimulator.Core.Common;
 
 namespace RedstoneSimulator.Core.Components;
@@ -135,7 +131,7 @@ public class RedstoneWire : ComponentBase
     /// Updates the state of this component based on its neighbors.
     /// </summary>
     /// <param name="neighbors">Dictionary of neighboring components keyed by direction.</param>
-    public override void UpdateState(IDictionary<Direction, IComponent> neighbors)
+    public override void UpdateState(IDictionary<Direction, IComponent>? neighbors)
     {
         if (neighbors == null)
         {
