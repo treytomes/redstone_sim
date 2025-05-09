@@ -706,4 +706,199 @@ public class CellTests
         Assert.Equal("Value1", dictionary[cell2]);  // Should retrieve using equivalent cell
         Assert.Equal(2, dictionary.Count);          // Should not duplicate for equivalent cells
     }
+
+    [Fact]
+    public void Constructor_SetsCoordinatesCorrectly()
+    {
+        // Arrange & Act
+        var cell = new Cell(5, 10);
+        
+        // Assert
+        Assert.Equal(5, cell.X);
+        Assert.Equal(10, cell.Y);
+        Assert.True(cell.IsEmpty);
+        Assert.Null(cell.Component);
+    }
+    
+    [Fact]
+    public void SetComponent_ValidComponent_SetsComponentCorrectly()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component = new MockComponent();
+        
+        // Act
+        cell.SetComponent(component);
+        
+        // Assert
+        Assert.Same(component, cell.Component);
+        Assert.False(cell.IsEmpty);
+    }
+    
+    [Fact]
+    public void SetComponent_RaisesComponentChangedEvent()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component = new MockComponent();
+        ComponentChangedEventArgs? eventArgs = null;
+        cell.ComponentChanged += (sender, e) => eventArgs = e;
+        
+        // Act
+        cell.SetComponent(component);
+        
+        // Assert
+        Assert.NotNull(eventArgs);
+        Assert.Null(eventArgs.OldComponent);
+        Assert.Same(component, eventArgs.NewComponent);
+    }
+    
+    [Fact]
+    public void SetComponent_ReplacingExistingComponent_RaisesEventWithBothComponents()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component1 = new MockComponent();
+        var component2 = new MockComponent();
+        cell.SetComponent(component1);
+        
+        ComponentChangedEventArgs? eventArgs = null;
+        cell.ComponentChanged += (sender, e) => eventArgs = e;
+        
+        // Act
+        cell.SetComponent(component2);
+        
+        // Assert
+        Assert.NotNull(eventArgs);
+        Assert.Same(component1, eventArgs.OldComponent);
+        Assert.Same(component2, eventArgs.NewComponent);
+    }
+    
+    [Fact]
+    public void SetComponent_Null_ClearsComponent()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component = new MockComponent();
+        cell.SetComponent(component);
+        
+        // Act
+        cell.SetComponent(null);
+        
+        // Assert
+        Assert.Null(cell.Component);
+        Assert.True(cell.IsEmpty);
+    }
+    
+    [Fact]
+    public void SetComponent_ComponentCannotBePlaced_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component = new MockComponent { CanBePlaced = false };
+        
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => cell.SetComponent(component));
+    }
+    
+    [Fact]
+    public void MarkForUpdate_RaisesMarkedForUpdateEvent()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        bool eventRaised = false;
+        cell.MarkedForUpdate += (sender, e) => eventRaised = true;
+        
+        // Act
+        cell.MarkForUpdate();
+        
+        // Assert
+        Assert.True(eventRaised);
+        Assert.True(cell.NeedsUpdate);
+    }
+    
+    [Fact]
+    public void Update_ResetsNeedsUpdateFlag()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        var component = new MockComponent();
+        cell.SetComponent(component);
+        cell.MarkForUpdate();
+        
+        // Act
+        cell.Update(0.1f);
+        
+        // Assert
+        Assert.False(cell.NeedsUpdate);
+        Assert.Equal(1, component.UpdateCount);
+    }
+    
+    [Fact]
+    public void GetNeighborPositions_ReturnsCorrectPositions()
+    {
+        // Arrange
+        var cell = new Cell(5, 10);
+        
+        // Act
+        var neighborPositions = cell.GetNeighborPositions();
+        
+        // Assert
+        Assert.Equal(4, neighborPositions.Count);
+        Assert.Contains(new Vector2i(4, 10), neighborPositions); // West
+        Assert.Contains(new Vector2i(6, 10), neighborPositions); // East
+        Assert.Contains(new Vector2i(5, 9), neighborPositions);  // North
+        Assert.Contains(new Vector2i(5, 11), neighborPositions); // South
+    }
+    
+    [Fact]
+    public void Equals_SameCoordinates_ReturnsTrue()
+    {
+        // Arrange
+        var cell1 = new Cell(5, 10);
+        var cell2 = new Cell(5, 10);
+        
+        // Act & Assert
+        Assert.True(cell1.Equals(cell2));
+        Assert.True(cell1 == cell2);
+        Assert.False(cell1 != cell2);
+        Assert.Equal(cell1.GetHashCode(), cell2.GetHashCode());
+    }
+    
+    [Fact]
+    public void Equals_DifferentCoordinates_ReturnsFalse()
+    {
+        // Arrange
+        var cell1 = new Cell(5, 10);
+        var cell2 = new Cell(6, 10);
+        var cell3 = new Cell(5, 11);
+        
+        // Act & Assert
+        Assert.False(cell1.Equals(cell2));
+        Assert.False(cell1 == cell2);
+        Assert.True(cell1 != cell2);
+        
+        Assert.False(cell1.Equals(cell3));
+        Assert.False(cell1 == cell3);
+        Assert.True(cell1 != cell3);
+    }
+    
+    [Fact]
+    public void ToString_ReturnsCorrectFormat()
+    {
+        // Arrange
+        var emptyCell = new Cell(5, 10);
+        var componentCell = new Cell(7, 12);
+        componentCell.SetComponent(new MockComponent());
+        
+        // Act
+        string emptyString = emptyCell.ToString();
+        string componentString = componentCell.ToString();
+        
+        // Assert
+        Assert.Contains("Cell(5, 10)", emptyString);
+        Assert.Contains("Empty", emptyString);
+        Assert.Contains("Cell(7, 12)", componentString);
+        Assert.Contains("MockComponent", componentString);
+    }
 }

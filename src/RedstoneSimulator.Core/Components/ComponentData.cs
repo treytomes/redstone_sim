@@ -13,5 +13,5 @@ public class ComponentData
     /// <summary>
     /// Gets or sets additional properties for the component.
     /// </summary>
-    public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
+    public Dictionary<string, object> Properties { get; set; } = new();
 }

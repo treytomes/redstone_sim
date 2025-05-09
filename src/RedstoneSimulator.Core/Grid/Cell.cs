@@ -1,3 +1,5 @@
+// src\RedstoneSimulator.Core\Grid\Cell.cs
+
 using OpenTK.Mathematics;
 using RedstoneSimulator.Core.Common;
 using RedstoneSimulator.Core.Components;

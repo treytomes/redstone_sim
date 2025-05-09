@@ -1,3 +1,5 @@
+// src\RedstoneSimulator.Core\Common\Direction.cs
+
 using OpenTK.Mathematics;
 
 namespace RedstoneSimulator.Core.Common;

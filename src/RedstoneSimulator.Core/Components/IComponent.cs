@@ -1,3 +1,5 @@
+// src\RedstoneSimulator.Core\Components\IComponent.cs
+
 using RedstoneSimulator.Core.Common;
 using RedstoneSimulator.Core.Grid;
 

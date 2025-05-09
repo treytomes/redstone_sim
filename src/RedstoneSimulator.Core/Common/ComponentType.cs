@@ -1,3 +1,5 @@
+// src\RedstoneSimulator.Core\Common\ComponentType.cs
+
 namespace RedstoneSimulator.Core.Common;
 
 /// <summary>
